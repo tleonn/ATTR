@@ -86,12 +86,35 @@ Carlo (20.000 iteraciones, cota de Hoeffding para un error de ±0,01 con 95 % de
 otro caso. **Con la infraestructura en operación, ATTR = 1,0000** (exacto): los 17 nodos
 clave están conectados. Definición, referencias y método en [`docs/attr.md`](docs/attr.md).
 
+### 5. Sismo 27F (USGS)
+
+```bash
+python scripts/cargar_sismo.py
+```
+
+Descarga el GeoJSON del sismo Mw 8.8 del 27-02-2010 desde la API FDSN de USGS (evento
+`official20100227063411530_30`) y lo carga en la tabla `sismo`. Si no hay conexión, usar la
+copia en `data/sismo_27F.geojson`. Epicentro: (−36,122; −72,898), profundidad 22,9 km.
+
+### 6. Modelo de falla
+
+```bash
+python scripts/modelo_falla.py   # curva PGA y probabilidad de falla vs. distancia
+```
+
+Atenuación de PGA para subducción de **Youngs et al. (1997)** (SRL 68(1)), a partir de la
+distancia al epicentro, más la fragilidad lognormal de **HAZUS** para circuitos de distribución
+aéreos (Tabla 8-30). La probabilidad de falla de un enlace es la fracción esperada de circuitos
+que fallan: ≈ 0,11 en el epicentro, 0,02 a 100 km y ≈ 0 sobre 300 km. Fórmulas, parámetros y
+justificación en [`docs/sismo_modelo_falla.md`](docs/sismo_modelo_falla.md).
+
 ## Estructura
 
 ```
 .
 ├── data/
 │   ├── nodos_clave.csv
+│   ├── sismo_27F.geojson
 │   └── infraestructura/
 │       ├── fibra_optica_detectada.*
 │       ├── camino_sin_postacion_detectado.*
@@ -100,13 +123,16 @@ clave están conectados. Definición, referencias y método en [`docs/attr.md`](
 ├── docs/
 │   ├── attr.md
 │   ├── nodos_clave.md
+│   ├── sismo_modelo_falla.md
 │   └── topologia.md
 ├── scripts/
 │   ├── db.py                       # conexión a la BD
 │   ├── cargar_infraestructura.py   # shapefiles -> PostGIS
 │   ├── cargar_nodos_clave.py       # nodos clave -> PostGIS
 │   ├── topologia.py                # pgr_nodeNetwork + pgr_createTopology
-│   └── attr.py                     # ATTR exacto / Monte Carlo
+│   ├── attr.py                     # ATTR exacto / Monte Carlo
+│   ├── cargar_sismo.py             # GeoJSON USGS -> tabla sismo
+│   └── modelo_falla.py             # Youngs (1997) + fragilidad HAZUS
 ├── sql/
 │   ├── 00_extensiones.sql
 │   └── 01_topologia.sql
