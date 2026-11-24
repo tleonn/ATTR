@@ -59,6 +59,20 @@ Los Andes), **intercambian** (PITs y data centers de Santiago, anillos urbanos d
 Temuco) o **reciben** información (capitales regionales sobre la troncal). Criterio, fuentes
 y ubicación en [`docs/nodos_clave.md`](docs/nodos_clave.md).
 
+### 3. Topología
+
+```bash
+python scripts/topologia.py
+```
+
+Une las capas en EPSG:32719, corta las uniones en "T" con `pgr_nodeNetwork` y ejecuta
+`pgr_createTopology('red', 10, 'geom', 'id')` (tolerancia de 10 m). El resultado es la tabla de
+enlaces `red` (con `prob_falla = 0` por defecto) y la tabla de vértices `red_vertices_pgr`.
+La fibra es la red real; la postación, los caminos, los ferrys, los accesos a nodos clave y un
+puente de 2,6 km se marcan como **sintéticos**. Los 17 nodos clave quedan en la componente
+principal (97,6 % de los vértices). Detalle, tolerancia y limitaciones en
+[`docs/topologia.md`](docs/topologia.md).
+
 ## Estructura
 
 ```
@@ -71,13 +85,16 @@ y ubicación en [`docs/nodos_clave.md`](docs/nodos_clave.md).
 │       ├── postacion_electrica_detectada.*
 │       └── trayecto_en_ferry.*
 ├── docs/
-│   └── nodos_clave.md
+│   ├── nodos_clave.md
+│   └── topologia.md
 ├── scripts/
 │   ├── db.py                       # conexión a la BD
 │   ├── cargar_infraestructura.py   # shapefiles -> PostGIS
-│   └── cargar_nodos_clave.py       # nodos clave -> PostGIS
+│   ├── cargar_nodos_clave.py       # nodos clave -> PostGIS
+│   └── topologia.py                # pgr_nodeNetwork + pgr_createTopology
 ├── sql/
-│   └── 00_extensiones.sql
+│   ├── 00_extensiones.sql
+│   └── 01_topologia.sql
 ├── docker-compose.yml
 ├── requirements.txt
 └── README.md
