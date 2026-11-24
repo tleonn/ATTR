@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Entorno / credenciales
+.env
+
+# Salidas generadas
+output/
+*.log
+
+# Sistema / editores
+.DS_Store
+.vscode/
+.idea/
+
+# Archivos pesados que no se versionan (p. ej. el PDF del Estudio, >100 MB)
+*.pdf

@@ -1,0 +1,24 @@
+services:
+  db:
+    # PostgreSQL 17 + PostGIS 3.5 + pgRouting 3.7.3.
+    # Se fija pgRouting 3.7 porque pgr_createTopology fue deprecada en 3.8
+    # y eliminada en 4.0 (la tarea exige usar pgr_createTopology).
+    image: pgrouting/pgrouting:17-3.5-3.7.3
+    container_name: attr_db
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_NAME:-attr}
+    ports:
+      - "${DB_PORT:-5433}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./data:/data:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-attr}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  pgdata:

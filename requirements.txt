@@ -1,0 +1,5 @@
+psycopg2-binary>=2.9   # conexión a PostgreSQL/PostGIS
+folium>=0.17           # mapas Leaflet desde Python
+requests>=2.31         # descarga del GeoJSON del sismo desde USGS
+numpy>=1.26            # simulación Monte Carlo del ATTR
+python-dotenv>=1.0     # lectura opcional de credenciales desde .env
