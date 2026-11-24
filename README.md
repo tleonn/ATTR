@@ -108,6 +108,18 @@ aéreos (Tabla 8-30). La probabilidad de falla de un enlace es la fracción espe
 que fallan: ≈ 0,11 en el epicentro, 0,02 a 100 km y ≈ 0 sobre 300 km. Fórmulas, parámetros y
 justificación en [`docs/sismo_modelo_falla.md`](docs/sismo_modelo_falla.md).
 
+### 7. Probabilidad de falla por enlace
+
+```bash
+python scripts/prob_falla.py
+```
+
+`sql/02_prob_falla.sql` implementa el modelo como funciones SQL (`pga_youngs`, `fragilidad`,
+`prob_falla_sismo`) y actualiza `red.prob_falla` usando `ST_Distance` entre cada enlace y el
+epicentro. Resultado: p máx = 0,105 en la costa de Ñuble, cerca de
+Cobquecura; 553 enlaces (~2.285 km) con p > 0,01 y 74 % de la red con p ≤ 0,0001. Enlaces
+más y menos afectados en [`docs/prob_falla.md`](docs/prob_falla.md).
+
 ## Estructura
 
 ```
@@ -123,6 +135,7 @@ justificación en [`docs/sismo_modelo_falla.md`](docs/sismo_modelo_falla.md).
 ├── docs/
 │   ├── attr.md
 │   ├── nodos_clave.md
+│   ├── prob_falla.md
 │   ├── sismo_modelo_falla.md
 │   └── topologia.md
 ├── scripts/
@@ -132,10 +145,12 @@ justificación en [`docs/sismo_modelo_falla.md`](docs/sismo_modelo_falla.md).
 │   ├── topologia.py                # pgr_nodeNetwork + pgr_createTopology
 │   ├── attr.py                     # ATTR exacto / Monte Carlo
 │   ├── cargar_sismo.py             # GeoJSON USGS -> tabla sismo
-│   └── modelo_falla.py             # Youngs (1997) + fragilidad HAZUS
+│   ├── modelo_falla.py             # Youngs (1997) + fragilidad HAZUS
+│   └── prob_falla.py               # probabilidad de falla por enlace
 ├── sql/
 │   ├── 00_extensiones.sql
-│   └── 01_topologia.sql
+│   ├── 01_topologia.sql
+│   └── 02_prob_falla.sql
 ├── tests/
 │   └── test_attr.py
 ├── docker-compose.yml
