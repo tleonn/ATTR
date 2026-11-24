@@ -27,6 +27,26 @@ pip install -r requirements.txt
 La BD queda expuesta en `localhost:5433` (usuario/clave `postgres`/`postgres`, base `attr`).
 Para cambiar estos valores, copiar `.env.example` a `.env`.
 
+## Etapas
+
+### 1. Carga de la infraestructura
+
+```bash
+python scripts/cargar_infraestructura.py
+```
+
+Crea las extensiones `postgis` y `pgrouting` y carga cada shapefile (EPSG:4326) en su tabla:
+
+| Tabla                  | Tramos | Longitud (km) |
+|------------------------|-------:|--------------:|
+| `fibra_optica`         |  1.915 |        10.313 |
+| `camino_sin_postacion` |  1.165 |         8.108 |
+| `postacion_electrica`  |  1.213 |         6.712 |
+| `trayecto_ferry`       |    204 |         2.390 |
+| **Total**              |  4.497 |    **27.523** |
+
+La fibra detectada (~10.300 km) es solo una parte del trazado; al sumar caminos sin postación, postación eléctrica y trayectos en ferry se llega a ~27.500 km, cerca de los ~28.000 km reportados en el Estudio.
+
 ## Estructura
 
 ```
@@ -37,6 +57,11 @@ Para cambiar estos valores, copiar `.env.example` a `.env`.
 │       ├── camino_sin_postacion_detectado.*
 │       ├── postacion_electrica_detectada.*
 │       └── trayecto_en_ferry.*
+├── scripts/
+│   ├── db.py                       # conexión a la BD
+│   └── cargar_infraestructura.py   # shapefiles -> PostGIS
+├── sql/
+│   └── 00_extensiones.sql
 ├── docker-compose.yml
 ├── requirements.txt
 └── README.md
@@ -51,3 +76,4 @@ Para cambiar estos valores, copiar `.env.example` a `.env`.
 | `requests`        | Descarga del GeoJSON del sismo desde USGS             |
 | `numpy`           | Simulación Monte Carlo del ATTR                       |
 | `python-dotenv`   | Lectura opcional de credenciales desde `.env`         |
+| `pyshp`           | Lectura de shapefiles (la imagen no trae `shp2pgsql`) |

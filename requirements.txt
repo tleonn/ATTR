@@ -3,3 +3,4 @@ folium>=0.17           # mapas Leaflet desde Python
 requests>=2.31         # descarga del GeoJSON del sismo desde USGS
 numpy>=1.26            # simulación Monte Carlo del ATTR
 python-dotenv>=1.0     # lectura opcional de credenciales desde .env
+pyshp>=2.3             # lectura de shapefiles (la imagen no trae shp2pgsql)
