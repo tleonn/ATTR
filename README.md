@@ -73,6 +73,19 @@ puente de 2,6 km se marcan como **sintéticos**. Los 17 nodos clave quedan en la
 principal (97,6 % de los vértices). Detalle, tolerancia y limitaciones en
 [`docs/topologia.md`](docs/topologia.md).
 
+### 4. ATTR en operación
+
+```bash
+python scripts/attr.py --escenario operacion
+python tests/test_attr.py        # validación contra casos teóricos
+```
+
+ATTR = promedio, sobre los 136 pares de nodos clave, de la probabilidad de que queden
+conectados. Se calcula de forma exacta cuando quedan pocos enlaces con 0 < p < 1, y por Monte
+Carlo (20.000 iteraciones, cota de Hoeffding para un error de ±0,01 con 95 % de confianza) en
+otro caso. **Con la infraestructura en operación, ATTR = 1,0000** (exacto): los 17 nodos
+clave están conectados. Definición, referencias y método en [`docs/attr.md`](docs/attr.md).
+
 ## Estructura
 
 ```
@@ -85,16 +98,20 @@ principal (97,6 % de los vértices). Detalle, tolerancia y limitaciones en
 │       ├── postacion_electrica_detectada.*
 │       └── trayecto_en_ferry.*
 ├── docs/
+│   ├── attr.md
 │   ├── nodos_clave.md
 │   └── topologia.md
 ├── scripts/
 │   ├── db.py                       # conexión a la BD
 │   ├── cargar_infraestructura.py   # shapefiles -> PostGIS
 │   ├── cargar_nodos_clave.py       # nodos clave -> PostGIS
-│   └── topologia.py                # pgr_nodeNetwork + pgr_createTopology
+│   ├── topologia.py                # pgr_nodeNetwork + pgr_createTopology
+│   └── attr.py                     # ATTR exacto / Monte Carlo
 ├── sql/
 │   ├── 00_extensiones.sql
 │   └── 01_topologia.sql
+├── tests/
+│   └── test_attr.py
 ├── docker-compose.yml
 ├── requirements.txt
 └── README.md
@@ -110,3 +127,4 @@ principal (97,6 % de los vértices). Detalle, tolerancia y limitaciones en
 | `numpy`           | Simulación Monte Carlo del ATTR                       |
 | `python-dotenv`   | Lectura opcional de credenciales desde `.env`         |
 | `pyshp`           | Lectura de shapefiles (la imagen no trae `shp2pgsql`) |
+| `scipy`           | Componentes conexas (`csgraph`) en el cálculo del ATTR |
