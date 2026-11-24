@@ -47,19 +47,35 @@ Crea las extensiones `postgis` y `pgrouting` y carga cada shapefile (EPSG:4326) 
 
 La fibra detectada (~10.300 km) es solo una parte del trazado; al sumar caminos sin postación, postación eléctrica y trayectos en ferry se llega a ~27.500 km, cerca de los ~28.000 km reportados en el Estudio.
 
+### 2. Nodos clave
+
+```bash
+python scripts/cargar_nodos_clave.py
+```
+
+Carga `data/nodos_clave.csv` en la tabla `nodos_clave`, 17 nodos que **generan**
+(aterrizajes de cables submarinos en Arica y Valparaíso, salida terrestre a Argentina por
+Los Andes), **intercambian** (PITs y data centers de Santiago, anillos urbanos de Concepción y
+Temuco) o **reciben** información (capitales regionales sobre la troncal). Criterio, fuentes
+y ubicación en [`docs/nodos_clave.md`](docs/nodos_clave.md).
+
 ## Estructura
 
 ```
 .
 ├── data/
+│   ├── nodos_clave.csv
 │   └── infraestructura/
 │       ├── fibra_optica_detectada.*
 │       ├── camino_sin_postacion_detectado.*
 │       ├── postacion_electrica_detectada.*
 │       └── trayecto_en_ferry.*
+├── docs/
+│   └── nodos_clave.md
 ├── scripts/
 │   ├── db.py                       # conexión a la BD
-│   └── cargar_infraestructura.py   # shapefiles -> PostGIS
+│   ├── cargar_infraestructura.py   # shapefiles -> PostGIS
+│   └── cargar_nodos_clave.py       # nodos clave -> PostGIS
 ├── sql/
 │   └── 00_extensiones.sql
 ├── docker-compose.yml
