@@ -120,6 +120,29 @@ epicentro. Resultado: p máx = 0,105 en la costa de Ñuble, cerca de
 Cobquecura; 553 enlaces (~2.285 km) con p > 0,01 y 74 % de la red con p ≤ 0,0001. Enlaces
 más y menos afectados en [`docs/prob_falla.md`](docs/prob_falla.md).
 
+### 8. `main.sql`
+
+```bash
+python scripts/generar_main_sql.py
+```
+
+`main.sql` (6,7 MB) contiene todo lo necesario para reproducir el análisis sin los shapefiles:
+las 4 capas de infraestructura, `nodos_clave`, la topología (`red` + `red_vertices_pgr`), la
+tabla `sismo`, las funciones del modelo de falla y **`red.prob_falla` con las probabilidades
+del 27F**. Usa `INSERT` (no `COPY`), así que carga con cualquier cliente:
+
+```bash
+createdb attr_nueva
+psql -d attr_nueva -f main.sql
+# o, con el contenedor del repositorio:
+docker compose exec -T db psql -U postgres -c "CREATE DATABASE attr_nueva"
+docker compose exec -T db psql -U postgres -d attr_nueva -f /dev/stdin < main.sql
+```
+
+Verificado en BDs vacías (con `psql` y con psycopg2): 5.323 enlaces, 4.583 vértices,
+17 nodos clave, 1 sismo y Σ prob_falla = 18,7331, idénticos a la BD original. Para volver al
+escenario en operación basta con `UPDATE red SET prob_falla = 0;`.
+
 ## Estructura
 
 ```
@@ -146,13 +169,15 @@ más y menos afectados en [`docs/prob_falla.md`](docs/prob_falla.md).
 │   ├── attr.py                     # ATTR exacto / Monte Carlo
 │   ├── cargar_sismo.py             # GeoJSON USGS -> tabla sismo
 │   ├── modelo_falla.py             # Youngs (1997) + fragilidad HAZUS
-│   └── prob_falla.py               # probabilidad de falla por enlace
+│   ├── prob_falla.py               # probabilidad de falla por enlace
+│   └── generar_main_sql.py         # pg_dump -> main.sql
 ├── sql/
 │   ├── 00_extensiones.sql
 │   ├── 01_topologia.sql
 │   └── 02_prob_falla.sql
 ├── tests/
 │   └── test_attr.py
+├── main.sql                        # BD completa con probabilidades de falla
 ├── docker-compose.yml
 ├── requirements.txt
 └── README.md
