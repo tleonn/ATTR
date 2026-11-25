@@ -12,14 +12,14 @@ Escenario: terremoto
 Enlaces: 5323  (con 0 < p < 1 tras contraer: 4748)
 Método: Monte Carlo, 20000 iteraciones, semilla 2010
 
-ATTR = 0.8090  (IC 95 %: ± 0.0034)
+ATTR = 0.8082  (IC 95 %: ± 0.0034)
 ```
 
 | Escenario | ATTR | Método |
 |-----------|-----:|--------|
 | En operación | **1,0000** | exacto (todos los p = 0) |
-| Post 27F     | **0,8090 ± 0,0034** | Monte Carlo, 20.000 iteraciones |
-| **Diferencia** | **−0,1910 (−19,1 %)** | |
+| Post 27F     | **0,8082 ± 0,0034** | Monte Carlo, 20.000 iteraciones |
+| **Diferencia** | **−0,1918 (−19,2 %)** | |
 
 El intervalo de confianza empírico (±0,0034) es más estrecho que la cota de Hoeffding usada para
 fijar N (±0,01), así que la diferencia de −0,19 es claramente significativa.
@@ -32,12 +32,12 @@ conectividad física.
 
 | Nodo | R promedio en operación | R promedio post 27F | Cambio |
 |------|------:|------:|-------:|
-| **Concepción**   | 1,0000 | 0,7403 | **−26,0 %** |
-| **Chillán**      | 1,0000 | 0,7590 | **−24,1 %** |
-| Temuco, Valdivia, Puerto Montt, Coyhaique, Punta Arenas | 1,0000 | 0,771 | −22,9 % |
-| Rancagua         | 1,0000 | 0,8296 | −17,0 % |
-| Talca            | 1,0000 | 0,8316 | −16,8 % |
-| Valparaíso, Los Andes, Santiago, Arica, Iquique, Antofagasta, Copiapó, La Serena | 1,0000 | 0,842 | −15,8 % |
+| **Concepción**   | 1,0000 | 0,7389 | **−26,1 %** |
+| **Chillán**      | 1,0000 | 0,7585 | **−24,2 %** |
+| Temuco, Valdivia, Puerto Montt, Coyhaique, Punta Arenas | 1,0000 | 0,770 | −23,0 % |
+| Rancagua         | 1,0000 | 0,8286 | −17,1 % |
+| Talca            | 1,0000 | 0,8311 | −16,9 % |
+| Valparaíso, Los Andes, Santiago, Arica, Iquique, Antofagasta, Copiapó, La Serena | 1,0000 | 0,841 | −15,9 % |
 
 Los nodos forman **dos bloques**: el norte-centro (Arica → Talca) y el sur (Chillán → Punta
 Arenas). Dentro de cada bloque los pares siguen casi siempre conectados; lo que se pierde es la
@@ -46,12 +46,12 @@ conexión **entre** bloques:
 | Par | R post 27F |
 |-----|-----:|
 | Santiago – Rancagua | 0,968 |
-| Rancagua – Talca | 0,973 |
-| **Talca – Chillán** | **0,669** |
-| Chillán – Concepción | 0,894 |
-| Chillán – Temuco | 0,921 |
+| Rancagua – Talca | 0,972 |
+| **Talca – Chillán** | **0,667** |
+| Chillán – Concepción | 0,893 |
+| Chillán – Temuco | 0,922 |
 | Temuco – Punta Arenas | 1,000 |
-| Santiago – Temuco | 0,649 |
+| Santiago – Temuco | 0,647 |
 
 El cuello de botella es el **corredor Talca–Chillán**, que cruza el Maule y Ñuble a 30–140 km del
 epicentro. Todo el tráfico norte–sur pasa por ahí, así que su falla separa los 10 nodos del norte
@@ -67,19 +67,19 @@ de los 7 del sur (70 de los 136 pares). Concepción es el nodo más afectado por
 | 5319 | acceso*   | 0,0316 | 16 | 0,0037 |  79,5 | Concepción |
 | 5318 | acceso*   | 0,0258 | 16 | 0,0030 |  89,4 | Chillán |
 | 5317 | acceso*   | 0,0099 | 16 | 0,0012 | 135,6 | Talca |
-| 1214 | fibra     | 0,0012 | 72 | 0,0006 | 237,1 | −34,17; −71,73 (O'Higgins) |
-| 3014 | postación*| 0,0014 | 16 | 0,0002 | 228,4 | −34,33; −71,56 |
-| 3013 | postación*| 0,0011 | 16 | 0,0001 | 238,7 | −34,30; −71,46 |
-| 1517 | fibra     | 0,0010 | 16 | 0,0001 | 243,7 | −34,30; −71,39 |
+| 1204 | fibra     | 0,0012 | 72 | 0,0006 | 237,1 | −34,17; −71,73 (O'Higgins) |
+| 3008 | postación*| 0,0014 | 16 | 0,0002 | 228,4 | −34,33; −71,56 |
+| 3007 | postación*| 0,0011 | 16 | 0,0001 | 238,7 | −34,30; −71,46 |
+| 1503 | fibra     | 0,0010 | 16 | 0,0001 | 243,7 | −34,30; −71,39 |
 
-Entre los 7 explican solo ~0,009 de la caída de 0,191. **La pérdida viene de fallas
+Entre los 7 explican solo ~0,009 de la caída de 0,192. **La pérdida viene de fallas
 combinadas**: en el corredor Talca–Chillán hay varias rutas alternativas (por la costa y por el
 interior), cada una formada por decenas de enlaces en serie con p entre 0,02 y 0,08 (los enlaces de fibra
 más afectados, con p ≈ 0,07, están en este corredor; ver [`prob_falla.md`](prob_falla.md)). Una
 ruta en serie se corta si falla **cualquiera** de sus enlaces, así que la probabilidad de que
-cada ruta se corte es alta, y la de que se corten todas a la vez (1 − 0,669 ≈ 0,33) explica la
+cada ruta se corte es alta, y la de que se corten todas a la vez (1 − 0,667 ≈ 0,33) explica la
 mayor parte de la caída del ATTR: 70 pares × 0,33 / 136 ≈ 0,17 de los 0,19 perdidos. El corte más probable de un solo par de enlaces entre Santiago y Temuco
-(fibra 684, p = 0,072, y fibra 1844, p = 0,026) tiene probabilidad 0,0019: no hay un único punto
+(fibra 680, p = 0,072, y fibra 1844, p = 0,026) tiene probabilidad 0,0019: no hay un único punto
 débil, sino muchos cortes posibles que se suman.
 
 ## Contraste con lo ocurrido en el 27F
@@ -87,7 +87,7 @@ débil, sino muchos cortes posibles que se suman.
 | Aspecto | Modelo | Lo observado (bibliografía) |
 |---------|--------|-----------------------------|
 | Zona afectada | Daño concentrado a < 150 km del epicentro: Maule y Ñuble/Biobío | *"About 70 % to 80 % of the cell sites in regions VII and VIII had problems with either equipment or antenna damage. This rate falls to about 50 % in region V"* (TCLEE, p. 9) |
-| Nodo más afectado | Concepción (−26,0 %) | Cables de energía y telecomunicaciones dañados en el puente Juan Pablo II sobre el Biobío, en Concepción (TCLEE, p. 22) |
+| Nodo más afectado | Concepción (−26,1 %) | Cables de energía y telecomunicaciones dañados en el puente Juan Pablo II sobre el Biobío, en Concepción (TCLEE, p. 22) |
 | Cortes de fibra | Fallas por sacudida en tendidos aéreos, mayores cerca del epicentro | *"fiber optic cables were severed in many locations mostly due to collocating on bridges and overpasses"* (TCLEE, p. 9); *"muchos puentes se cayeron, causando como daño adicional el corte de fibras que iban en su interior y cortando de raíz la conectividad en las ciudades afectadas"* (Estudio, p. 4) |
 | Redundancia | ATTR = 0,81 > 0 gracias a rutas paralelas | *"alternative links provided by another company allowed to some transmission circuits for inter LATA operation"* (TCLEE, p. 9) |
 | Alcance nacional | Norte y Santiago casi intactos (solo pierden la conexión con el sur) | *"más del 60 % de la Internet chilena quedó desconectado por alrededor de 6 horas esa madrugada [...] se debió a una mala ingeniería de las interconexiones y respaldos dentro de Santiago"* (Estudio, p. 10) |
@@ -99,7 +99,7 @@ la época, hoy Maule, Ñuble y Biobío) y a Concepción como el nodo clave más 
 muestra que la redundancia de rutas evita una desconexión total, como ocurrió con los enlaces
 alternativos de otros operadores.
 
-**Diferencias**: el impacto real fue **mayor** que el −19,1 % del modelo, por causas que este
+**Diferencias**: el impacto real fue **mayor** que el −19,2 % del modelo, por causas que este
 no representa:
 1. **Energía**: la causa principal de la pérdida de servicio fue la falta de energía en sitios
    sin generador (baterías de 3–8 h).

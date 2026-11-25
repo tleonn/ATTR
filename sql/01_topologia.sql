@@ -13,13 +13,13 @@ DROP TABLE IF EXISTS red_base, red_base_noded, red, red_vertices_pgr CASCADE;
 
 -- 1) Unión de las capas en una sola tabla de tramos
 CREATE TABLE red_base AS
-SELECT row_number() OVER ()::bigint AS id, capa, sintetico,
+SELECT row_number() OVER (ORDER BY orden, gid)::bigint AS id, capa, sintetico,
        ST_Transform(geom, 32719)    AS geom
 FROM (
-    SELECT 'fibra'     AS capa, false AS sintetico, geom FROM fibra_optica
-    UNION ALL SELECT 'postacion', true, geom FROM postacion_electrica
-    UNION ALL SELECT 'camino',    true, geom FROM camino_sin_postacion
-    UNION ALL SELECT 'ferry',     true, geom FROM trayecto_ferry
+    SELECT 1 AS orden, gid, 'fibra'     AS capa, false AS sintetico, geom FROM fibra_optica
+    UNION ALL SELECT 2, gid, 'postacion', true, geom FROM postacion_electrica
+    UNION ALL SELECT 3, gid, 'camino',    true, geom FROM camino_sin_postacion
+    UNION ALL SELECT 4, gid, 'ferry',     true, geom FROM trayecto_ferry
 ) u;
 
 -- 2) Nodado: corta los tramos en las uniones en "T" (un tramo que termina
@@ -46,4 +46,5 @@ INSERT INTO red (id_base, capa, sintetico, geom)
 SELECT n.old_id, b.capa, b.sintetico, n.geom
 FROM red_base_noded n
 JOIN red_base b ON b.id = n.old_id
-WHERE ST_Length(n.geom) > 0;
+WHERE ST_Length(n.geom) > 0
+ORDER BY n.old_id, n.sub_id;

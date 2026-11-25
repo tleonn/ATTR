@@ -22,6 +22,12 @@ python scripts/topologia.py
    vértices `red_vertices_pgr`.
 6. **Enlaces puente** (sintéticos): mientras los nodos clave queden en más de una componente
    conexa, se une el par de vértices más cercano entre componentes y se recalcula la topología.
+7. **Numeración reproducible**: `pgr_createTopology` numera los vértices según el orden en
+   que procesa las filas, que puede variar entre ejecuciones. Después de cada llamada, los
+   vértices se renumeran de oeste a este (por coordenada X y luego Y) y se actualizan `source`
+   y `target`. Además, `red` se crea con un orden explícito (`ORDER BY` tramo original y
+   sub-tramo), así que los ids de enlaces, vértices y nodos clave son los mismos en cada
+   ejecución, tanto desde cero como desde `main.sql`.
 
 ### Salida de `pgr_createTopology`
 
@@ -69,6 +75,35 @@ desfases sin fusionar tramos que de verdad están separados (> 23 m). Una tolera
 - **Vértices colgantes** (grado 1): 346, extremos de caminos que terminan en localidades.
 - **Nodos clave en la topología**: la columna `nodos_clave.vertice` guarda el vértice que
   representa a cada nodo.
+
+### Tablas resultantes
+
+Primeras filas de la tabla de enlaces `red` después de `pgr_createTopology` (`source` y
+`target` asignados, `prob_falla` en 0 por defecto):
+
+```
+ id | capa  | sintetico | source | target | largo_m | prob_falla
+----+-------+-----------+--------+--------+---------+------------
+  1 | fibra | f         |   1130 |   1155 |    4823 |          0
+  2 | fibra | f         |   1155 |   1169 |    4917 |          0
+  3 | fibra | f         |   1169 |   1187 |    7871 |          0
+  4 | fibra | f         |   1187 |   1255 |    6917 |          0
+  5 | fibra | f         |   1255 |   1304 |    6229 |          0
+```
+
+Primeras filas de la tabla de vértices `red_vertices_pgr` (4.583 vértices; geometría en
+EPSG:32719, mostrada en lon/lat). Los primeros son de Isla de Pascua porque los vértices se
+numeran de oeste a este (ver el paso 7):
+
+```
+ id |    lon    |   lat
+----+-----------+----------
+  1 | -109.4392 | -27.1597
+  2 | -109.4367 | -27.1555
+  3 | -109.4386 | -27.1647
+  4 | -109.4295 | -27.1491
+  5 | -109.4431 | -27.1866
+```
 
 ## Enlaces sintéticos y limitaciones de los datos
 

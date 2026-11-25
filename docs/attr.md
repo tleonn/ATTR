@@ -23,7 +23,7 @@ certeza; ATTR = 0, que ningún par queda conectado.
 
 **Referencias**
 - S. Neumayer y E. Modiano, *"Network Reliability With Geographically Correlated Failures"*,
-  IEEE INFOCOM 2010. Usa el ATTR como métrica de la red de fibra ante fallas geográficas
+  IEEE INFOCOM 2010, pp. 1658–1666, doi:10.1109/INFCOM.2010.5461984. Usa el ATTR como métrica de la red de fibra ante fallas geográficas
   (terremotos, ataques), que es exactamente el escenario de esta tarea.
 - C. J. Colbourn, *The Combinatorics of Network Reliability*, Oxford University Press, 1987
   (confiabilidad de dos terminales).

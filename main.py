@@ -58,10 +58,30 @@ def cargar_main_sql():
     with conn.cursor() as cur:
         cur.execute((ROOT / "main.sql").read_text(encoding="utf-8"))
         cur.execute("SELECT (SELECT count(*) FROM red), (SELECT count(*) FROM red_vertices_pgr),"
-                    " (SELECT count(*) FROM nodos_clave), (SELECT count(*) FROM sismo)")
-        red, vert, nodos, sismo = cur.fetchone()
+                    " (SELECT count(*) FROM nodos_clave), (SELECT count(*) FROM sismo),"
+                    " (SELECT sum(prob_falla) FROM red)")
+        red, vert, nodos, sismo, suma_p = cur.fetchone()
     conn.close()
     print(f"red: {red} enlaces | red_vertices_pgr: {vert} | nodos_clave: {nodos} | sismo: {sismo}")
+    return red, vert, suma_p
+
+
+def recalcular_topologia():
+    titulo("2. Topología sobre las capas cargadas (pgr_nodeNetwork + pgr_createTopology)")
+    topologia.main()
+
+
+def verificar_contra_main_sql(referencia):
+    red0, vert0, suma0 = referencia
+    conn = conectar()
+    with conn.cursor() as cur:
+        cur.execute("SELECT (SELECT count(*) FROM red), (SELECT count(*) FROM red_vertices_pgr),"
+                    " (SELECT sum(prob_falla) FROM red)")
+        red, vert, suma = cur.fetchone()
+    conn.close()
+    igual = red == red0 and vert == vert0 and abs(suma - suma0) < 1e-9
+    print(f"\nComparación con main.sql: enlaces {red}/{red0}, vértices {vert}/{vert0}, "
+          f"Σ prob_falla {suma:.6f}/{suma0:.6f} -> {'coinciden' if igual else 'NO coinciden'}")
 
 
 def construir_desde_cero():
@@ -96,10 +116,12 @@ def main():
     esperar_bd()
     recrear_bd()
 
+    referencia = None
     if args.desde_cero:
         construir_desde_cero()
     else:
-        cargar_main_sql()
+        referencia = cargar_main_sql()
+        recalcular_topologia()
 
     conn = conectar()
     titulo("ATTR en operación (prob_falla = 0)")
@@ -111,6 +133,8 @@ def main():
     titulo("Probabilidades de falla por el terremoto 27F")
     conn.close()
     prob_falla.main()
+    if referencia:
+        verificar_contra_main_sql(referencia)
     conn = conectar()
 
     titulo("ATTR post terremoto 27F")

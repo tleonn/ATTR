@@ -30,17 +30,19 @@ python main.py
 
 1. Levanta la BD con `docker compose up -d --wait` (PostgreSQL 17 + PostGIS 3.5 + pgRouting 3.7.3).
 2. Crea la base `attr` **vacía** y carga `main.sql` (infraestructura, nodos clave, topología y sismo).
-3. Calcula el **ATTR en operación** (`prob_falla = 0`).
-4. Calcula la **probabilidad de falla de cada enlace** por el terremoto (`sql/02_prob_falla.sql`).
-5. Calcula el **ATTR post terremoto** y lo compara con el previo (nodos y enlaces más afectados).
-6. Genera el **mapa Leaflet** en `output/mapa.html` y lo abre en el navegador.
+3. Recalcula la **topología** con `pgr_nodeNetwork` + `pgr_createTopology` sobre las capas cargadas.
+4. Calcula el **ATTR en operación** (`prob_falla = 0`).
+5. Calcula la **probabilidad de falla de cada enlace** por el terremoto (`sql/02_prob_falla.sql`) y
+   verifica que la topología y las probabilidades coinciden con las de `main.sql`.
+6. Calcula el **ATTR post terremoto** y lo compara con el previo (nodos y enlaces más afectados).
+7. Genera el **mapa Leaflet** en `output/mapa.html` y lo abre en el navegador.
 
-Toma ~10 s y entrega los mismos valores de este informe (Monte Carlo con semilla fija):
+Toma ~15 s y entrega los mismos valores de este informe (Monte Carlo con semilla fija):
 
 ```
 ATTR en operación : 1.0000  (exacto)
-ATTR post 27F     : 0.8090  ± 0.0034  (monte carlo, 20000 iteraciones)
-Diferencia        : -0.1910  (-19.1 %)
+ATTR post 27F     : 0.8082  ± 0.0034  (monte carlo, 20000 iteraciones)
+Diferencia        : -0.1918  (-19.2 %)
 ```
 
 | Opción | Efecto |
@@ -180,11 +182,11 @@ python scripts/comparar_attr.py
 | Escenario | ATTR |
 |-----------|-----:|
 | En operación | 1,0000 (exacto) |
-| Post 27F | **0,8090 ± 0,0034** (Monte Carlo, 20.000 iteraciones) |
-| Diferencia | **−0,1910 (−19,1 %)** |
+| Post 27F | **0,8082 ± 0,0034** (Monte Carlo, 20.000 iteraciones) |
+| Diferencia | **−0,1918 (−19,2 %)** |
 
 El cuello de botella es el corredor Talca–Chillán (R = 0,67), que separa el bloque norte-centro
-del sur. Concepción (−26,0 %) y Chillán (−24,1 %) son los nodos más afectados, lo que coincide
+del sur. Concepción (−26,1 %) y Chillán (−24,2 %) son los nodos más afectados, lo que coincide
 con las regiones VII y VIII del 27F. Comparación con la bibliografía (TCLEE 2010; Estudio NIC
 Chile) y limitaciones en [`docs/attr_terremoto.md`](docs/attr_terremoto.md).
 

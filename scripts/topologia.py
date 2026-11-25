@@ -21,6 +21,15 @@ def crear_topologia(conn):
                               cost = ST_Length(ST_Transform(geom, 4326)::geography),
                               reverse_cost = ST_Length(ST_Transform(geom, 4326)::geography)"""
         )
+        cur.execute(
+            """CREATE TEMP TABLE orden_vertices ON COMMIT DROP AS
+               SELECT id AS viejo, row_number() OVER (ORDER BY ST_X(the_geom), ST_Y(the_geom)) AS nuevo
+               FROM red_vertices_pgr"""
+        )
+        cur.execute("UPDATE red r SET source = o.nuevo FROM orden_vertices o WHERE r.source = o.viejo")
+        cur.execute("UPDATE red r SET target = o.nuevo FROM orden_vertices o WHERE r.target = o.viejo")
+        cur.execute("UPDATE red_vertices_pgr v SET id = -o.nuevo FROM orden_vertices o WHERE v.id = o.viejo")
+        cur.execute("UPDATE red_vertices_pgr SET id = -id")
     conn.commit()
     return estado
 

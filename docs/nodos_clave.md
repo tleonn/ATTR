@@ -29,12 +29,12 @@ Research Labs, proyecto CORFO 15BPE-47225, en adelante "Estudio"):
 
 | id | Nodo         | Rol                 | Tipo                                         | Lat      | Lon      |
 |---:|--------------|---------------------|----------------------------------------------|---------:|---------:|
-|  1 | Arica        | genera / recibe     | Aterrizaje SAm-1 y Pan-Am + capital regional | -18.4783 | -70.3126 |
+|  1 | Arica        | genera / recibe     | Aterrizaje SAm-1 + capital regional          | -18.4783 | -70.3126 |
 |  2 | Iquique      | recibe              | Nodo troncal (capital regional)              | -20.2133 | -70.1503 |
 |  3 | Antofagasta  | recibe              | Nodo troncal (capital regional)              | -23.6509 | -70.3975 |
 |  4 | Copiapó      | recibe              | Nodo troncal (capital regional)              | -27.3668 | -70.3314 |
 |  5 | La Serena    | recibe              | Nodo troncal (capital regional)              | -29.9045 | -71.2489 |
-|  6 | Valparaíso   | genera / recibe     | Aterrizaje SAm-1, SAC y Curie + anillo urbano | -33.0472 | -71.6127 |
+|  6 | Valparaíso   | genera / recibe     | Aterrizaje SAm-1 y Curie + anillo urbano     | -33.0472 | -71.6127 |
 |  7 | Santiago     | intercambia / genera| PIT/IXP + data centers + anillo urbano       | -33.4378 | -70.6505 |
 |  8 | Los Andes    | genera / recibe     | Punto limítrofe (Cristo Redentor → Argentina) | -32.8337 | -70.5983 |
 |  9 | Rancagua     | recibe              | Nodo troncal (capital regional)              | -34.1708 | -70.7444 |
@@ -77,13 +77,39 @@ nodo están en `data/nodos_clave.csv` y se cargan en la tabla `nodos_clave` de l
 16 de los 17 nodos están a menos de 0,5 km de un tendido de fibra. **Santiago queda a 9,2 km**
 porque el levantamiento en terreno del Estudio recorrió caminos interurbanos y no el núcleo
 urbano de Santiago (cuyos anillos de fibra SUBTEL reconoce, pero que no vienen en los datos).
-En la etapa de topología se conectará cada nodo clave al vértice más cercano y, en el caso de
-Santiago, mediante un enlace **sintético** que represente el anillo urbano.
+### Ubicación en la topología
+
+`scripts/topologia.py` une cada nodo clave que está a más de 10 m de un vértice con un enlace
+**sintético** de acceso (`capa = 'acceso'`) y guarda en `nodos_clave.vertice` el vértice de
+`red_vertices_pgr` que lo representa:
+
+| id | Nodo | Vértice | Enlace de acceso (m) |
+|---:|------|--------:|---------------------:|
+|  1 | Arica        | 3431 |   983 |
+|  2 | Iquique      | 3614 |   235 |
+|  3 | Antofagasta  | 3393 |   501 |
+|  4 | Copiapó      | 3491 |    86 |
+|  5 | La Serena    | 2477 |   358 |
+|  6 | Valparaíso   | 1991 | 1.763 |
+|  7 | Santiago     | 3267 | **9.208** |
+|  8 | Los Andes    | 3303 |    12 |
+|  9 | Rancagua     | 3171 |   351 |
+| 10 | Talca        | 2059 |   968 |
+| 11 | Chillán      | 1492 |    13 |
+| 12 | Concepción   |  385 |    46 |
+| 13 | Temuco       |  981 |   457 |
+| 14 | Valdivia     |  358 | — (sobre un vértice) |
+| 15 | Puerto Montt |  754 |   364 |
+| 16 | Coyhaique    | 2096 | — (sobre un vértice) |
+| 17 | Punta Arenas | 3540 |   614 |
+
+El enlace de Santiago (9,2 km) representa el anillo urbano que no viene en los datos. Los
+17 nodos quedan en la componente principal de la topología (ver `topologia.md`).
 
 ## Limitaciones
 
 - Los datos son de 2019 (levantamiento del Estudio); para el escenario del 27F (2010) el cable
-  Curie (2019) no existía, pero Valparaíso ya era aterrizaje de SAm-1 y SAC, así que su rol no
+  Curie (2019) no existía, pero Valparaíso ya era aterrizaje de SAm-1, así que su rol no
   cambia.
 - Los data centers y PITs se agregan en un único nodo "Santiago" porque comparten vértice en la
   topología: separarlos solo agregaría pares trivialmente conectados al ATTR.

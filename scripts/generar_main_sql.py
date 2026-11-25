@@ -6,9 +6,21 @@ from db import ROOT, conectar
 
 EXCLUIR = ["red_base", "red_base_noded", "red_base_noded_id_seq", "attr_resultado", "attr_par"]
 OMITIR = ("--", "SET ", "SELECT pg_catalog.set_config")
+TABLAS = ["fibra_optica", "postacion_electrica", "camino_sin_postacion", "trayecto_ferry",
+          "nodos_clave", "sismo", "red", "red_vertices_pgr"]
+
+
+def ordenar_tablas():
+    conn = conectar()
+    conn.autocommit = True
+    with conn.cursor() as cur:
+        for t in TABLAS:
+            cur.execute(f"CLUSTER {t} USING {t}_pkey")
+    conn.close()
 
 
 def generar(destino=ROOT / "main.sql"):
+    ordenar_tablas()
     cmd = ["docker", "compose", "exec", "-T", "db", "pg_dump",
            "-U", os.getenv("DB_USER", "postgres"), "-d", os.getenv("DB_NAME", "attr"),
            "--no-owner", "--no-privileges", "--no-comments", "--rows-per-insert=500"]
