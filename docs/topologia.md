@@ -47,12 +47,12 @@ Distancia de cada extremo de un tramo de fibra al extremo de fibra más cercano:
 | Distancia            | Extremos |
 |----------------------|---------:|
 | < 1 cm (coinciden)   |    3.375 |
-| 1 – 6 m              |       16 |
+| 1 cm – 5,7 m         |       16 |
 | 23 – 87 m            |        7 |
-| 109 m – 7 km         |      232 |
-| sin vecino a < 2 km   |      200 |
+| 100 m – 1 km         |      101 |
+| > 1 km               |      331 |
 
-El 99 % de los extremos coincide exactamente. Los desfases de 1 a 6 m son errores de
+El 88 % de los extremos (3.375 de 3.830) coincide exactamente. Los desfases menores a 6 m se interpretan como errores de
 digitalización del levantamiento manual, y no hay casos entre 6 y 23 m. Por eso **10 m** une los
 desfases sin fusionar tramos que de verdad están separados (> 23 m). Una tolerancia mayor
 (p. ej. 100 m) crearía conexiones que no existen en el terreno.
@@ -62,9 +62,9 @@ desfases sin fusionar tramos que de verdad están separados (> 23 m). Una tolera
 | Capa        | Sintético | Enlaces |     km | Justificación |
 |-------------|:---------:|--------:|-------:|---------------|
 | `fibra`     | no        |   2.251 | 10.313 | Fibra detectada en terreno (archivo SAIP) |
-| `postacion` | **sí**    |   1.422 |  6.712 | Camino con postación eléctrica: el Estudio lo documenta como ruta donde la fibra puede tenderse (p. 23) |
-| `camino`    | **sí**    |   1.407 |  8.108 | Camino recorrido sin postación; lo usa el Estudio en su grafo (p. 39) |
-| `ferry`     | **sí**    |     227 |  2.390 | Trayecto náutico; única vía física hacia parte de la zona austral |
+| `postacion` | **sí**    |   1.422 |  6.712 | Postación eléctrica: permite instalar fibra a menor costo (p. 23) |
+| `camino`    | **sí**    |   1.407 |  8.108 | Camino sin cableado; arco del grafo de la propuesta de mejora (p. 39) |
+| `ferry`     | **sí**    |     227 |  2.390 | Trayecto usado como ruta submarina por el Estudio (S3, p. 44) |
 | `acceso`    | **sí**    |      15 |     16 | Tramo recto nodo clave → vértice más cercano |
 | `puente`    | **sí**    |       1 |      3 | 2,6 km en la desembocadura del río Maipo (San Antonio) que une el bloque norte-centro con el sur |
 
@@ -107,20 +107,21 @@ numeran de oeste a este (ver el paso 7):
 
 ## Enlaces sintéticos y limitaciones de los datos
 
-- **Fibra incompleta**: el archivo SAIP contiene ~10.300 km de fibra, mientras que el Estudio
-  documentó ~28.000 km recorridos (cuadro 4.1, p. 24). El levantamiento es visual (solo fibra
-  aérea visible desde el camino) y no cubre todas las rutas. **Usando solo la fibra, la red tiene
-  123 componentes y los 17 nodos clave quedarían repartidos en 15 de ellas**: el ATTR sería
-  prácticamente 0, lo que contradice que la red troncal Arica–Puerto Montt existe y opera
-  (SUBTEL, Estudio p. 22).
-- Por eso se incorporan las demás rutas físicas documentadas (postación, caminos, ferrys) como
-  **enlaces sintéticos**: representan tramos por donde la fibra no fue detectada pero que el
-  propio Estudio integra en su grafo de la red física (p. 39). Quedan marcados con
-  `sintetico = true` y se distinguen en el mapa.
+- **Cobertura de los datos**: el archivo SAIP tiene 10.313 km de fibra, casi lo mismo que las capas
+  de fibra del Estudio (10.342 km, cuadro 4.1, p. 24), frente a los ~28.000 km que cita la rúbrica.
+  El cuadro 4.1 suma 26.534 km documentados, e incluye caminos sin cableado. El Estudio no puede
+  asegurar que los tendidos estén interconectados (p. 5) y califica la red de no conexa (p. 36).
+  **Usando solo la fibra, la red tiene 123 componentes, los 17 nodos clave quedan en 15 de ellas y
+  el ATTR es 0,0147.**
+- **Postación, caminos y ferrys** entran como **enlaces sintéticos**. En el Estudio son rutas donde
+  se *podría* tender fibra en su propuesta de mejora (pp. 39-40 y S3, p. 44); la capa de caminos es
+  "sin postación ni cableado de ningún tipo" (p. 24). Tratarlas como operativas es un supuesto de
+  este trabajo: sin los caminos el ATTR en operación baja de 1,0 a 0,0882.
 - El **núcleo urbano de Santiago** no fue levantado (los anillos urbanos no vienen en los
-  datos), así que se conecta con un enlace de acceso de 9,2 km.
+  datos), así que se conecta con un enlace de acceso de 9,2 km
+  (el Estudio también supone la fibra del Gran Santiago: S2, p. 44).
 - La **conexión entre el bloque norte-centro y el sur** pasa por un único puente sintético de
-  2,6 km en San Antonio. En los datos no aparece la Ruta 5 entre Santiago y Rancagua, por lo que
-  la red resultante es más frágil que la real en ese corredor.
+  2,6 km en San Antonio. La ruta más corta Santiago–Rancagua en la topología mide 524 km porque
+  los datos no contienen un enlace directo.
 - Los cables submarinos y el enlace terrestre a Argentina no se modelan como enlaces; sus puntos
   de llegada (Arica, Valparaíso, Los Andes) están representados como nodos clave.

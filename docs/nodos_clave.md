@@ -18,34 +18,34 @@ Research Labs, proyecto CORFO 15BPE-47225, en adelante "Estudio"):
    limítrofe terrestre hacia Argentina (el Estudio modela 8 puntos limítrofes, p. 39 y p. 46).
 2. **Intercambio** (Estudio, p. 22): *"en las principales ciudades del país (Santiago,
    Valparaíso, Temuco y Concepción) existen anillos de fibra urbana"*. Además, el Estudio
-   recomienda estudiar los **PITs y data centers** (p. 75), que en Chile se concentran en
-   Santiago (PIT Chile, NAP Chile de la Cámara de Comercio de Santiago).
+   recomienda estudiar los **PITs y data centers** (p. 75), y PIT Chile
+   declara puntos de intercambio en Osorno, Temuco, Concepción, Santiago y Arica (PIT Chile, 2018).
 3. **Recepción / nodos troncales** (Estudio, p. 39): el grafo del Estudio usa las comunas como
-   nodos (346 comunas + 8 puntos limítrofes). Para que el ATTR sea manejable
-   (17·16/2 = 136 pares) se toman las **16 capitales regionales**, que cubren la troncal de
-   norte a sur, más el punto limítrofe de Los Andes.
+   nodos (346 comunas + 8 puntos limítrofes). Se toman las **16 capitales
+   regionales** (sedes de las intendencias que el Estudio fijó como mínimo a documentar, p. 23) más
+   Los Andes: 17·16/2 = 136 pares.
 
 ## Lista de nodos clave
 
 | id | Nodo         | Rol                 | Tipo                                         | Lat      | Lon      |
 |---:|--------------|---------------------|----------------------------------------------|---------:|---------:|
-|  1 | Arica        | genera / recibe     | Aterrizaje SAm-1 + capital regional          | -18.4783 | -70.3126 |
-|  2 | Iquique      | recibe              | Nodo troncal (capital regional)              | -20.2133 | -70.1503 |
-|  3 | Antofagasta  | recibe              | Nodo troncal (capital regional)              | -23.6509 | -70.3975 |
-|  4 | Copiapó      | recibe              | Nodo troncal (capital regional)              | -27.3668 | -70.3314 |
-|  5 | La Serena    | recibe              | Nodo troncal (capital regional)              | -29.9045 | -71.2489 |
-|  6 | Valparaíso   | genera / recibe     | Aterrizaje SAm-1 y Curie + anillo urbano     | -33.0472 | -71.6127 |
-|  7 | Santiago     | intercambia / genera| PIT/IXP + data centers + anillo urbano       | -33.4378 | -70.6505 |
-|  8 | Los Andes    | genera / recibe     | Punto limítrofe (Cristo Redentor → Argentina) | -32.8337 | -70.5983 |
-|  9 | Rancagua     | recibe              | Nodo troncal (capital regional)              | -34.1708 | -70.7444 |
-| 10 | Talca        | recibe              | Nodo troncal (capital regional)              | -35.4264 | -71.6554 |
-| 11 | Chillán      | recibe              | Nodo troncal (capital regional)              | -36.6066 | -72.1034 |
-| 12 | Concepción   | intercambia / recibe| Nodo troncal + anillo urbano                 | -36.8270 | -73.0498 |
-| 13 | Temuco       | intercambia / recibe| Nodo troncal + anillo urbano                 | -38.7359 | -72.5904 |
-| 14 | Valdivia     | recibe              | Nodo troncal (capital regional)              | -39.8142 | -73.2459 |
-| 15 | Puerto Montt | recibe              | Extremo sur de la troncal Arica–Puerto Montt | -41.4693 | -72.9424 |
-| 16 | Coyhaique    | recibe              | Nodo troncal (capital regional, zona austral) | -45.5712 | -72.0685 |
-| 17 | Punta Arenas | recibe              | Nodo troncal (capital regional, zona austral) | -53.1638 | -70.9171 |
+|  1 | Arica | genera / intercambia / recibe | Aterrizaje cable submarino + PIT + capital regional | -18.4783 | -70.3126 |
+|  2 | Iquique | recibe | Nodo troncal (capital regional) | -20.2133 | -70.1503 |
+|  3 | Antofagasta | recibe | Nodo troncal (capital regional) | -23.6509 | -70.3975 |
+|  4 | Copiapó | recibe | Nodo troncal (capital regional) | -27.3668 | -70.3314 |
+|  5 | La Serena | recibe | Nodo troncal (capital regional) | -29.9045 | -71.2489 |
+|  6 | Valparaíso | genera / intercambia / recibe | Aterrizaje cable submarino + anillo urbano + capital regional | -33.0472 | -71.6127 |
+|  7 | Santiago | genera / intercambia / recibe | PIT + data centers + anillo urbano + capital regional | -33.4378 | -70.6505 |
+|  8 | Los Andes | genera / recibe | Salida terrestre internacional | -32.8337 | -70.5983 |
+|  9 | Rancagua | recibe | Nodo troncal (capital regional) | -34.1708 | -70.7444 |
+| 10 | Talca | recibe | Nodo troncal (capital regional) | -35.4264 | -71.6554 |
+| 11 | Chillán | recibe | Nodo troncal (capital regional) | -36.6066 | -72.1034 |
+| 12 | Concepción | intercambia / recibe | PIT + anillo urbano + capital regional | -36.8270 | -73.0498 |
+| 13 | Temuco | intercambia / recibe | PIT + anillo urbano + capital regional | -38.7359 | -72.5904 |
+| 14 | Valdivia | recibe | Nodo troncal (capital regional) | -39.8142 | -73.2459 |
+| 15 | Puerto Montt | recibe | Nodo troncal (capital regional) | -41.4693 | -72.9424 |
+| 16 | Coyhaique | recibe | Nodo troncal (capital regional) | -45.5712 | -72.0685 |
+| 17 | Punta Arenas | recibe | Nodo troncal (capital regional) | -53.1638 | -70.9171 |
 
 Las coordenadas corresponden al centro de cada ciudad; la justificación y la fuente de cada
 nodo están en `data/nodos_clave.csv` y se cargan en la tabla `nodos_clave` de la BD.

@@ -74,7 +74,7 @@ Crea las extensiones `postgis` y `pgrouting` y carga cada shapefile (EPSG:4326) 
 | `trayecto_ferry`       |    204 |         2.390 |
 | **Total**              |  4.497 |    **27.523** |
 
-La fibra detectada (~10.300 km) es solo una parte del trazado; al sumar caminos sin postación, postación eléctrica y trayectos en ferry se llega a ~27.500 km, cerca de los ~28.000 km reportados en el Estudio.
+Solo `fibra_optica` (10.313 km) es fibra detectada; las otras capas son rutas sin fibra.
 
 ### 2. Nodos clave
 

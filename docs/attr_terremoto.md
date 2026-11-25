@@ -73,8 +73,8 @@ de los 7 del sur (70 de los 136 pares). Concepción es el nodo más afectado por
 | 1503 | fibra     | 0,0010 | 16 | 0,0001 | 243,7 | −34,30; −71,39 |
 
 Entre los 7 explican solo ~0,009 de la caída de 0,192. **La pérdida viene de fallas
-combinadas**: en el corredor Talca–Chillán hay varias rutas alternativas (por la costa y por el
-interior), cada una formada por decenas de enlaces en serie con p entre 0,02 y 0,08 (los enlaces de fibra
+combinadas**: en el corredor Talca–Chillán hay solo dos rutas disjuntas en enlaces (sin contar los accesos); la
+más confiable tiene 62 enlaces en serie y R = 0,333. Cada ruta encadena enlaces con p entre 0,02 y 0,08 (los enlaces de fibra
 más afectados, con p ≈ 0,07, están en este corredor; ver [`prob_falla.md`](prob_falla.md)). Una
 ruta en serie se corta si falla **cualquiera** de sus enlaces, así que la probabilidad de que
 cada ruta se corte es alta, y la de que se corten todas a la vez (1 − 0,667 ≈ 0,33) explica la
@@ -87,7 +87,7 @@ débil, sino muchos cortes posibles que se suman.
 | Aspecto | Modelo | Lo observado (bibliografía) |
 |---------|--------|-----------------------------|
 | Zona afectada | Daño concentrado a < 150 km del epicentro: Maule y Ñuble/Biobío | *"About 70 % to 80 % of the cell sites in regions VII and VIII had problems with either equipment or antenna damage. This rate falls to about 50 % in region V"* (TCLEE, p. 9) |
-| Nodo más afectado | Concepción (−26,1 %) | Cables de energía y telecomunicaciones dañados en el puente Juan Pablo II sobre el Biobío, en Concepción (TCLEE, p. 22) |
+| Nodo más afectado | Concepción (−26,1 %) | Cables de energía y telecomunicaciones dañados en el puente Juan Pablo II sobre el Biobío, en Concepción (TCLEE, p. 23) |
 | Cortes de fibra | Fallas por sacudida en tendidos aéreos, mayores cerca del epicentro | *"fiber optic cables were severed in many locations mostly due to collocating on bridges and overpasses"* (TCLEE, p. 9); *"muchos puentes se cayeron, causando como daño adicional el corte de fibras que iban en su interior y cortando de raíz la conectividad en las ciudades afectadas"* (Estudio, p. 4) |
 | Redundancia | ATTR = 0,81 > 0 gracias a rutas paralelas | *"alternative links provided by another company allowed to some transmission circuits for inter LATA operation"* (TCLEE, p. 9) |
 | Alcance nacional | Norte y Santiago casi intactos (solo pierden la conexión con el sur) | *"más del 60 % de la Internet chilena quedó desconectado por alrededor de 6 horas esa madrugada [...] se debió a una mala ingeniería de las interconexiones y respaldos dentro de Santiago"* (Estudio, p. 10) |
@@ -122,8 +122,7 @@ no representa:
   enlaces cercanos sufren el mismo movimiento (fallas correlacionadas).
 - **Enlaces sintéticos**: el 63 % de los km son rutas sin fibra detectada (postación, caminos,
   ferrys). El ATTR depende de suponer que esas rutas existen y operan.
-- **Infraestructura de 2019**: los datos son posteriores al 27F (2010); la red de 2010 era menos
-  extensa y probablemente menos redundante.
+- **Infraestructura de 2018-2019**: los datos son posteriores al 27F (2010); no representan la red que existía ese día.
 - **Nodos sin falla**: los nodos clave (PIT, data centers, aterrizajes) se suponen intactos; solo
   fallan los enlaces.
 

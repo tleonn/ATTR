@@ -1,18 +1,18 @@
 id,nombre,tipo,rol,lat,lon,justificacion,fuente
-1,Arica,Aterrizaje cable submarino + capital regional,genera/recibe,-18.4783,-70.3126,"Aterrizaje del cable SAm-1 (salida internacional hacia el norte por el Pacífico); extremo norte de la red troncal Arica-Puerto Montt","Estudio p.22 (SUBTEL) y p.27 (capa de cables submarinos); TeleGeography Submarine Cable Map"
-2,Iquique,Nodo troncal (capital regional),recibe,-20.2133,-70.1503,"Capital de la Región de Tarapacá sobre la troncal norte","Estudio p.39 (comunas como nodos); BCN división regional"
-3,Antofagasta,Nodo troncal (capital regional),recibe,-23.6509,-70.3975,"Capital de la Región de Antofagasta sobre la troncal norte","Estudio p.39; BCN división regional"
-4,Copiapó,Nodo troncal (capital regional),recibe,-27.3668,-70.3314,"Capital de la Región de Atacama sobre la troncal norte","Estudio p.39; BCN división regional"
-5,La Serena,Nodo troncal (capital regional),recibe,-29.9045,-71.2489,"Capital de la Región de Coquimbo sobre la troncal norte","Estudio p.39; BCN división regional"
-6,Valparaíso,Aterrizaje cable submarino + anillo urbano,genera/recibe,-33.0472,-71.6127,"Aterrizaje de los cables SAm-1 y Curie; una de las 4 ciudades con anillo de fibra urbana","Estudio p.22 (SUBTEL) y p.27 (capa de cables submarinos); TeleGeography Submarine Cable Map"
-7,Santiago,PIT/IXP + data centers + anillo urbano,intercambia/genera,-33.4378,-70.6505,"Concentra los puntos de intercambio de tráfico (PIT Chile, NAP Chile) y los principales data centers; anillo urbano; origen de la salida terrestre a Argentina","Estudio p.22 y p.75 (PITs y data centers); PIT Chile; NAP Chile (CCS)"
-8,Los Andes,Punto limítrofe (enlace terrestre internacional),genera/recibe,-32.8337,-70.5983,"Salida terrestre Santiago-Argentina por el paso Cristo Redentor; el Estudio modela 8 puntos limítrofes con Argentina","Estudio p.22, p.39 y p.46 (puntos limítrofes)"
-9,Rancagua,Nodo troncal (capital regional),recibe,-34.1708,-70.7444,"Capital de la Región de O'Higgins sobre la troncal centro-sur","Estudio p.39; BCN división regional"
-10,Talca,Nodo troncal (capital regional),recibe,-35.4264,-71.6554,"Capital de la Región del Maule sobre la troncal centro-sur","Estudio p.39; BCN división regional"
-11,Chillán,Nodo troncal (capital regional),recibe,-36.6066,-72.1034,"Capital de la Región de Ñuble sobre la troncal centro-sur","Estudio p.39; BCN división regional"
-12,Concepción,Nodo troncal + anillo urbano,intercambia/recibe,-36.8270,-73.0498,"Capital del Biobío; una de las 4 ciudades con anillo de fibra urbana","Estudio p.22 (SUBTEL)"
-13,Temuco,Nodo troncal + anillo urbano,intercambia/recibe,-38.7359,-72.5904,"Capital de La Araucanía; una de las 4 ciudades con anillo de fibra urbana","Estudio p.22 (SUBTEL)"
-14,Valdivia,Nodo troncal (capital regional),recibe,-39.8142,-73.2459,"Capital de la Región de Los Ríos sobre la troncal sur","Estudio p.39; BCN división regional"
-15,Puerto Montt,Nodo troncal (capital regional),recibe,-41.4693,-72.9424,"Capital de Los Lagos; extremo sur de la red troncal Arica-Puerto Montt","Estudio p.22 (SUBTEL)"
-16,Coyhaique,Nodo troncal (capital regional),recibe,-45.5712,-72.0685,"Capital de Aysén; zona austral sin troncal continua según SUBTEL","Estudio p.22 y p.39"
-17,Punta Arenas,Nodo troncal (capital regional),recibe,-53.1638,-70.9171,"Capital de Magallanes; zona austral sin troncal continua según SUBTEL","Estudio p.22 y p.39"
+1,Arica,Aterrizaje cable submarino + PIT + capital regional,genera/intercambia/recibe,-18.4783,-70.3126,Aterrizaje del cable SAm-1; PIT; extremo norte de la troncal Arica-Puerto Montt,Estudio p.22 y p.27; TeleGeography Submarine Cable Map; PIT Chile (2018)
+2,Iquique,Nodo troncal (capital regional),recibe,-20.2133,-70.1503,Capital de la Región de Tarapacá sobre la troncal norte,Estudio p.23 (intendencias) y p.39 (comunas como nodos)
+3,Antofagasta,Nodo troncal (capital regional),recibe,-23.6509,-70.3975,Capital de la Región de Antofagasta sobre la troncal norte,Estudio p.23 (intendencias) y p.39 (comunas como nodos)
+4,Copiapó,Nodo troncal (capital regional),recibe,-27.3668,-70.3314,Capital de la Región de Atacama sobre la troncal norte,Estudio p.23 (intendencias) y p.39 (comunas como nodos)
+5,La Serena,Nodo troncal (capital regional),recibe,-29.9045,-71.2489,Capital de la Región de Coquimbo sobre la troncal norte,Estudio p.23 (intendencias) y p.39 (comunas como nodos)
+6,Valparaíso,Aterrizaje cable submarino + anillo urbano + capital regional,genera/intercambia/recibe,-33.0472,-71.6127,"Aterrizaje de los cables SAm-1, SAC y Curie; anillo de fibra urbana",Estudio p.22 y p.27; TeleGeography Submarine Cable Map
+7,Santiago,PIT + data centers + anillo urbano + capital regional,genera/intercambia/recibe,-33.4378,-70.6505,PIT en data centers de Santiago; anillo de fibra urbana; origen de la salida terrestre a Argentina,Estudio p.22 y p.75; DPL News (2020)
+8,Los Andes,Salida terrestre internacional,genera/recibe,-32.8337,-70.5983,Salida terrestre hacia Argentina por el paso Cristo Redentor,Estudio p.22 y p.46; Telesemana (2024)
+9,Rancagua,Nodo troncal (capital regional),recibe,-34.1708,-70.7444,Capital de la Región de O'Higgins sobre la troncal centro-sur,Estudio p.23 (intendencias) y p.39 (comunas como nodos)
+10,Talca,Nodo troncal (capital regional),recibe,-35.4264,-71.6554,Capital de la Región del Maule sobre la troncal centro-sur,Estudio p.23 (intendencias) y p.39 (comunas como nodos)
+11,Chillán,Nodo troncal (capital regional),recibe,-36.6066,-72.1034,Capital de la Región de Ñuble sobre la troncal centro-sur,Estudio p.23 (intendencias) y p.39 (comunas como nodos)
+12,Concepción,PIT + anillo urbano + capital regional,intercambia/recibe,-36.8270,-73.0498,PIT; anillo de fibra urbana,Estudio p.22; PIT Chile (2018)
+13,Temuco,PIT + anillo urbano + capital regional,intercambia/recibe,-38.7359,-72.5904,PIT; anillo de fibra urbana,Estudio p.22; PIT Chile (2018)
+14,Valdivia,Nodo troncal (capital regional),recibe,-39.8142,-73.2459,Capital de la Región de Los Ríos sobre la troncal sur,Estudio p.23 (intendencias) y p.39 (comunas como nodos)
+15,Puerto Montt,Nodo troncal (capital regional),recibe,-41.4693,-72.9424,Capital regional; extremo sur de la troncal Arica-Puerto Montt,Estudio p.22 y p.23
+16,Coyhaique,Nodo troncal (capital regional),recibe,-45.5712,-72.0685,Capital regional; fuera de la troncal Arica-Puerto Montt descrita por SUBTEL,Estudio p.22 y p.23
+17,Punta Arenas,Nodo troncal (capital regional),recibe,-53.1638,-70.9171,Capital regional; fuera de la troncal Arica-Puerto Montt descrita por SUBTEL,Estudio p.22 y p.23

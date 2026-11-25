@@ -41,8 +41,8 @@ El modelo combina dos funciones de la literatura:
 > 58–73, 1997.
 
 Es una relación de atenuación desarrollada específicamente para **sismos de subducción**,
-calibrada con registros de Chile, Perú, México, Japón y Alaska. Se usa en los mapas de amenaza
-del USGS y está implementada en OpenQuake (`YoungsEtAl1997SInter`). Para roca:
+con 271 registros de 19 eventos de Alaska, Chile, Cascadia, Japón, México, Perú e Islas Salomón.
+Está implementada en OpenQuake (`YoungsEtAl1997SInter`). Para roca:
 
 $$\ln \mathrm{PGA} = 0{,}2418 + 1{,}414\,M + C_1 + C_2(10-M)^3 + C_3 \ln\!\left(R + 1{,}7818\,e^{0{,}554M}\right) + 0{,}00607\,H + 0{,}3846\,Z_t$$
 
@@ -125,8 +125,8 @@ Curva resultante (`python scripts/modelo_falla.py`):
 
 ### 2.5 Limitaciones
 
-- **Fuente puntual vs. ruptura extendida**: el 27F rompió unos 450–500 km de la interfaz (desde
-  la península de Arauco hasta la zona de Valparaíso). Youngs et al. definen R como distancia a
+- **Fuente puntual vs. ruptura extendida**: el 27F rompió ~500 km de la interfaz (Vigny et al.,
+  2011, Science 332, 1417–1421). Youngs et al. definen R como distancia a
   la ruptura; usar la distancia al epicentro (como pide el enunciado) **subestima** la PGA en los
   extremos de la ruptura (Concepción, Santiago, Valparaíso).
 - **Extrapolación en magnitud**: la base de datos de Youngs et al. llega a M ≈ 8,2; para M 8,8

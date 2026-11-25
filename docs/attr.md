@@ -92,5 +92,5 @@ pares están conectados con certeza y **ATTR = 1**. Ningún nodo clave queda des
 
 Este valor depende de los enlaces sintéticos de la topología (ver
 [`topologia.md`](topologia.md)). Usando solo la fibra detectada, los nodos clave quedarían
-repartidos en 15 componentes y el ATTR sería **0,0147** (solo 2 de los 136 pares conectados), lo que refleja que el levantamiento de
-fibra está incompleto y no que la red real esté desconectada.
+repartidos en 15 componentes y el ATTR sería **0,0147** (solo 2 de los 136 pares conectados), en línea con
+el Estudio, que califica la red de no conexa (p. 36).
