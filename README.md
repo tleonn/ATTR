@@ -143,6 +143,24 @@ Verificado en BDs vacías (con `psql` y con psycopg2): 5.323 enlaces, 4.583 vér
 17 nodos clave, 1 sismo y Σ prob_falla = 18,7331, idénticos a la BD original. Para volver al
 escenario en operación basta con `UPDATE red SET prob_falla = 0;`.
 
+### 9. ATTR post terremoto
+
+```bash
+python scripts/attr.py --escenario terremoto
+python scripts/comparar_attr.py
+```
+
+| Escenario | ATTR |
+|-----------|-----:|
+| En operación | 1,0000 (exacto) |
+| Post 27F | **0,8113 ± 0,0034** (Monte Carlo, 20.000 iteraciones) |
+| Diferencia | **−0,1887 (−18,9 %)** |
+
+El cuello de botella es el corredor Talca–Chillán (R = 0,67), que separa el bloque norte-centro
+del sur. Concepción (−25,9 %) y Chillán (−23,9 %) son los nodos más afectados, lo que coincide
+con las regiones VII y VIII del 27F. Comparación con la bibliografía (TCLEE 2010; Estudio NIC
+Chile) y limitaciones en [`docs/attr_terremoto.md`](docs/attr_terremoto.md).
+
 ## Estructura
 
 ```
@@ -157,6 +175,7 @@ escenario en operación basta con `UPDATE red SET prob_falla = 0;`.
 │       └── trayecto_en_ferry.*
 ├── docs/
 │   ├── attr.md
+│   ├── attr_terremoto.md
 │   ├── nodos_clave.md
 │   ├── prob_falla.md
 │   ├── sismo_modelo_falla.md
@@ -167,6 +186,7 @@ escenario en operación basta con `UPDATE red SET prob_falla = 0;`.
 │   ├── cargar_nodos_clave.py       # nodos clave -> PostGIS
 │   ├── topologia.py                # pgr_nodeNetwork + pgr_createTopology
 │   ├── attr.py                     # ATTR exacto / Monte Carlo
+│   ├── comparar_attr.py            # antes vs después, nodos y enlaces críticos
 │   ├── cargar_sismo.py             # GeoJSON USGS -> tabla sismo
 │   ├── modelo_falla.py             # Youngs (1997) + fragilidad HAZUS
 │   ├── prob_falla.py               # probabilidad de falla por enlace

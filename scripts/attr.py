@@ -115,7 +115,7 @@ def calcular_attr(conn, iteraciones=ITERACIONES, semilla=SEMILLA):
     pares = [(nombres[i], nombres[j], float(r[i, j])) for i, j in zip(*np.triu_indices(k, 1))]
     attr = sum(x for _, _, x in pares) / len(pares)
     return {
-        "attr": attr, "ic95": error, "metodo": metodo, "iteraciones": iters,
+        "attr": attr, "ic95": float(error), "metodo": metodo, "iteraciones": iters,
         "semilla": semilla if iters else None, "enlaces": len(enlaces),
         "enlaces_aleatorios": len(aleatorios), "nodos": nombres, "pares": pares,
     }
