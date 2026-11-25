@@ -19,7 +19,8 @@ def descargar():
         })
         r.raise_for_status()
         datos = r.json()
-        ARCHIVO.write_text(json.dumps(datos, ensure_ascii=False, indent=2), encoding="utf-8")
+        if not ARCHIVO.exists():
+            ARCHIVO.write_text(json.dumps(datos, ensure_ascii=False, indent=2), encoding="utf-8")
         print(f"Descargado desde USGS: {r.url}")
     except requests.RequestException as e:
         print(f"Sin acceso a USGS ({e.__class__.__name__}); se usa {ARCHIVO.name}")

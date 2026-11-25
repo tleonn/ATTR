@@ -37,7 +37,7 @@ def nodos(cur):
 
 def criticos(cur, top=10):
     """Quita cada enlace con p > P_MIN y cuenta los pares de nodos clave que se desconectan."""
-    cur.execute("SELECT id, source, target, prob_falla FROM red")
+    cur.execute("SELECT id, source, target, prob_falla FROM red ORDER BY id")
     enlaces = np.array(cur.fetchall(), dtype=float)
     cur.execute("SELECT vertice FROM nodos_clave ORDER BY id")
     clave = np.array([v for (v,) in cur.fetchall()], dtype=int)

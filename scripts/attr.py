@@ -30,7 +30,7 @@ class UnionFind:
 
 def cargar_grafo(conn):
     with conn.cursor() as cur:
-        cur.execute("SELECT source, target, prob_falla FROM red WHERE source IS NOT NULL")
+        cur.execute("SELECT source, target, prob_falla FROM red WHERE source IS NOT NULL ORDER BY id")
         enlaces = cur.fetchall()
         cur.execute("SELECT nombre, vertice FROM nodos_clave ORDER BY id")
         nodos = cur.fetchall()

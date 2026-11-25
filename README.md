@@ -12,20 +12,47 @@ Mw 8.8 del 27-02-2010.
 - Docker + Docker Compose (base de datos PostgreSQL 17 + PostGIS 3.5 + pgRouting 3.7.3)
 - Python 3.10+
 
-## Puesta en marcha
+## Ejecución (un solo comando)
+
+Con Docker abierto, desde un clon limpio del repositorio:
 
 ```bash
-# 1. Levantar la base de datos
-docker compose up -d
-
-# 2. Entorno Python
+git clone https://github.com/tleonn/ATTR.git
+cd ATTR
 python3 -m venv .venv
-source .venv/bin/activate
+source .venv/bin/activate          # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
+
+python main.py
 ```
 
+`main.py` ejecuta todo el flujo:
+
+1. Levanta la BD con `docker compose up -d --wait` (PostgreSQL 17 + PostGIS 3.5 + pgRouting 3.7.3).
+2. Crea la base `attr` **vacía** y carga `main.sql` (infraestructura, nodos clave, topología y sismo).
+3. Calcula el **ATTR en operación** (`prob_falla = 0`).
+4. Calcula la **probabilidad de falla de cada enlace** por el terremoto (`sql/02_prob_falla.sql`).
+5. Calcula el **ATTR post terremoto** y lo compara con el previo (nodos y enlaces más afectados).
+6. Genera el **mapa Leaflet** en `output/mapa.html` y lo abre en el navegador.
+
+Toma ~10 s y entrega los mismos valores de este informe (Monte Carlo con semilla fija):
+
+```
+ATTR en operación : 1.0000  (exacto)
+ATTR post 27F     : 0.8090  ± 0.0034  (monte carlo, 20000 iteraciones)
+Diferencia        : -0.1910  (-19.1 %)
+```
+
+| Opción | Efecto |
+|--------|--------|
+| `--desde-cero` | Reconstruye todo desde los shapefiles (carga, nodos clave, `pgr_createTopology`, sismo desde USGS) en vez de cargar `main.sql`. Entrega los mismos valores (~15 s). |
+| `--sin-docker` | Usa una BD PostgreSQL ya levantada (con PostGIS y pgRouting 3.7), configurada con las variables `DB_*` o un archivo `.env`. |
+| `--no-abrir` | No abre el navegador. |
+| `--iteraciones N` | Cambia el número de iteraciones Monte Carlo (por defecto 20.000). |
+
 La BD queda expuesta en `localhost:5433` (usuario/clave `postgres`/`postgres`, base `attr`).
-Para cambiar estos valores, copiar `.env.example` a `.env`.
+Para cambiar estos valores, copiar `.env.example` a `.env`. El mapa necesita conexión a
+Internet para cargar las teselas del mapa base.
 
 ## Etapas
 
@@ -153,13 +180,32 @@ python scripts/comparar_attr.py
 | Escenario | ATTR |
 |-----------|-----:|
 | En operación | 1,0000 (exacto) |
-| Post 27F | **0,8113 ± 0,0034** (Monte Carlo, 20.000 iteraciones) |
-| Diferencia | **−0,1887 (−18,9 %)** |
+| Post 27F | **0,8090 ± 0,0034** (Monte Carlo, 20.000 iteraciones) |
+| Diferencia | **−0,1910 (−19,1 %)** |
 
 El cuello de botella es el corredor Talca–Chillán (R = 0,67), que separa el bloque norte-centro
-del sur. Concepción (−25,9 %) y Chillán (−23,9 %) son los nodos más afectados, lo que coincide
+del sur. Concepción (−26,0 %) y Chillán (−24,1 %) son los nodos más afectados, lo que coincide
 con las regiones VII y VIII del 27F. Comparación con la bibliografía (TCLEE 2010; Estudio NIC
 Chile) y limitaciones en [`docs/attr_terremoto.md`](docs/attr_terremoto.md).
+
+### 10. `main.py` y mapa Leaflet
+
+`main.py` orquesta todas las etapas anteriores (ver *Ejecución*) y `scripts/mapa.py` genera
+el mapa con folium (Leaflet):
+
+- **Enlaces** coloreados por probabilidad de falla en 5 clases de una escala secuencial de azul
+  (más oscuro y más grueso = más probable que falle).
+- **Fibra detectada** en trazo continuo y **enlaces sintéticos** (postación, caminos, ferry,
+  accesos, puente) en trazo **punteado**, cada uno en una capa que se puede activar o desactivar.
+- **Nodos clave** con etiqueta; al hacer clic muestran su tipo, rol y confiabilidad promedio
+  antes y después del terremoto.
+- **Epicentro** del 27F con círculos a 50, 100, 150 y 300 km.
+- Panel con el **ATTR antes y después**, y tooltip con p, PGA y distancia al epicentro de cada
+  enlace.
+
+![Mapa general](docs/img/mapa.png)
+
+![Zona epicentral: enlaces sintéticos punteados y mayor probabilidad de falla cerca del epicentro](docs/img/mapa_zona_epicentral.png)
 
 ## Estructura
 
@@ -174,6 +220,7 @@ Chile) y limitaciones en [`docs/attr_terremoto.md`](docs/attr_terremoto.md).
 │       ├── postacion_electrica_detectada.*
 │       └── trayecto_en_ferry.*
 ├── docs/
+│   ├── img/                        # capturas del mapa
 │   ├── attr.md
 │   ├── attr_terremoto.md
 │   ├── nodos_clave.md
@@ -187,6 +234,7 @@ Chile) y limitaciones en [`docs/attr_terremoto.md`](docs/attr_terremoto.md).
 │   ├── topologia.py                # pgr_nodeNetwork + pgr_createTopology
 │   ├── attr.py                     # ATTR exacto / Monte Carlo
 │   ├── comparar_attr.py            # antes vs después, nodos y enlaces críticos
+│   ├── mapa.py                     # mapa Leaflet (folium)
 │   ├── cargar_sismo.py             # GeoJSON USGS -> tabla sismo
 │   ├── modelo_falla.py             # Youngs (1997) + fragilidad HAZUS
 │   ├── prob_falla.py               # probabilidad de falla por enlace
@@ -197,6 +245,7 @@ Chile) y limitaciones en [`docs/attr_terremoto.md`](docs/attr_terremoto.md).
 │   └── 02_prob_falla.sql
 ├── tests/
 │   └── test_attr.py
+├── main.py                         # flujo completo con un solo comando
 ├── main.sql                        # BD completa con probabilidades de falla
 ├── docker-compose.yml
 ├── requirements.txt
@@ -208,7 +257,7 @@ Chile) y limitaciones en [`docs/attr_terremoto.md`](docs/attr_terremoto.md).
 | Librería          | Uso                                                   |
 |-------------------|-------------------------------------------------------|
 | `psycopg2-binary` | Conexión a PostgreSQL/PostGIS                         |
-| `folium`          | Generación del mapa Leaflet                           |
+| `folium`          | Generación del mapa Leaflet (incluye `branca` para la leyenda) |
 | `requests`        | Descarga del GeoJSON del sismo desde USGS             |
 | `numpy`           | Simulación Monte Carlo del ATTR                       |
 | `python-dotenv`   | Lectura opcional de credenciales desde `.env`         |
